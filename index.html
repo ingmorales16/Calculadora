@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculo Ingreso Tiempo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <!-- Tomamos desde una api el precio del dolar y la fecha actual -->
+    <div class="container">
+      <h1>Calculadora de tiempo e ingresos</h1>
+      <p>El precio del dólar blue es: <span id="precio-dolar"></span></p>
+      <p>Última actualización: <span id="fecha-actualizacion"></span></p>
+  
+    </div>
+
+      <!-- Definimos el Formulario -->
+      <div class="container">
+        <form>
+
+          <div class="row mb-3">
+            <label for="horas-laborales" class="col-sm-2 col-form-label">Horas laborables / dia:</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" id="horas-laborables">
+            </div>
+          </div>
+  
+          <div class="row mb-3">
+            <label for="dias-laborales" class="col-sm-2 col-form-label">Dias laborables / semana:</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" id="dias-laborables">
+            </div>
+          </div>
+  
+          <div class="row mb-3">
+            <label for="semanas-laborales" class="col-sm-2 col-form-label">Semanas laborables / mes:</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" id="semanas-laborables">
+            </div>
+          </div>
+  
+          <div class="row mb-3">
+            <label for="ingreso-mensual" class="col-sm-2 col-form-label">Ingreso mensual:</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" id="ingreso-mensual">
+            </div>
+          </div>
+  
+          <button type="button" onclick="calcularIngreso()" class="btn btn-primary">Calcular</button>
+        </form>
+      </div>
+
+
+      <br>
+      
+      <!-- Definimos la tabla con los calculos en js -->
+
+      <div class="table-responsive">
+        <table class="table table-bordered border-dark">
+        <tr>
+          <td>
+            <div>
+                <p><strong>Ingreso Mensual ($):</strong> </p>
+                <p>Pesos: <span id="ingreso-mensual-pesos"></span></p>
+              </div>
+          </td>
+          <td>
+            <div>
+                <p><strong>Ingreso Mensual (u$d):</strong></p>
+                <p>Pesos: <span id="ingreso-mensual-dolares"></span></p>
+              </div>
+          </td>
+          <td>
+            <div>
+                <p><strong>Horas Trabajadas por Mes:</strong></p>
+                <p>Horas: <span id="horas-mensual"></span></p>
+              </div>
+          </td>
+          <td>
+            <div>
+                <p><strong>Servicios por Mes:</strong></p>
+                <p>Servicios: <span id="servicios-mensual"></span></p>
+              </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div>
+                <p><strong>Ingreso Semanal ($):</strong></p>
+                
+                <p>Pesos: <span id="ingreso-semanal-pesos"></span></p>
+              </div>
+            
+          </td>
+          <td>
+           
+      <div>
+        <p><strong>Ingreso Semanal (u$d):</strong></p>
+        <p>Dólares: <span id="ingreso-semanal-dolares"></span></p>
+        
+      </div>
+          </td>
+
+          <td>
+            <div>
+                <p><strong>Horas Trabajadas por semana:</strong></p>
+                <p>Horas: <span id="horas-semanal"></span></p>
+              </div>
+          </td>
+
+          <td>
+            <div>
+                <p><strong>Servicios por Semana:</strong></p>
+                <p>Servicios: <span id="servicios-semanal"></span></p>
+              </div>
+          </td>
+
+        </tr>
+        <tr>
+          <td>
+
+            <div>
+                <p><strong>Ingreso diario ($):</strong></p>
+                <p>Pesos: <span id="ingreso-diario-pesos"></span></p>
+              </div>
+
+            
+          </td>
+          <td>
+
+            
+      <div>
+        <p><strong>Ingreso Diario (u$d):</strong></p>
+        <p>Dólares: <span id="ingreso-diario-dolares"></span></p>
+        
+      </div>
+          </td>
+
+          <td>
+            <div>
+                <p><strong>Horas Trabajadas por dia:</strong></p>
+                <p>Horas: <span id="horas-dia"></span></p>
+              </div>
+          </td>
+
+          <td>
+            <div>
+                <p><strong>Servicios por dia:</strong></p>
+                <p>Servicios: <span id="servicios-dia"></span></p>
+              </div>
+          </td>
+
+        </tr>
+        <tr>
+          <td>
+            <div>
+                <p><strong>Ingreso por Hora ($):</strong></p>
+                <p>Pesos: <span id="ingreso-hora-pesos"></span></p>
+              </div>
+          </td>
+          <td>
+            
+      <div>
+        <p><strong>Ingreso por Hora (u$d):</strong></p>
+        <p>Dólares: <span id="ingreso-hora-dolares"></span></p>
+        
+      </div>
+          </td>
+
+        </tr>
+      </table>
+    </div>
+
+
+    <script src="app.js"></script>
+</body>
+</html>
